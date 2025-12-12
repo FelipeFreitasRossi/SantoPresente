@@ -1,143 +1,198 @@
-// Landing Page - A primeira tela que o usuário vê
-// É como a "vitrine" da loja
+// Landing Page com HEADER FIXO e Hamburguer!
 
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { Colors } from '../constants/Colors';
 import Button from '../components/Button';
 import ProductCard from '../components/ProductCard';
+import HamburgerButton from '../components/HamburgerButton';
+import Navbar from '../components/Navbar';
 
 export default function LandingPage() {
-  // Função que é chamada quando clica no botão
+  // Estado para controlar se o menu está aberto ou fechado
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  // Funções de navegação
   const handleExplorePress = () => {
     console.log('Botão Explorar clicado!');
-    // Aqui depois você pode navegar para outra tela
   };
 
   const handleContactPress = () => {
     console.log('Botão Contato clicado!');
-    // Aqui depois você pode abrir WhatsApp ou email
+  };
+
+  // Função que será chamada quando clicar em algum item do menu
+  const handleNavigation = (screen: string) => {
+    console.log(`Navegando para: ${screen}`);
+    // Aqui depois você vai implementar a navegação de verdade
   };
 
   return (
-    <ScrollView style={styles.container}>
-      {/* SEÇÃO DO TOPO - Hero Section */}
-      <View style={styles.heroSection}>
-        <View style={styles.logoContainer}>
-          {/* Logo da SantoPresente */}
-          <Image 
-            source={{ uri: 'https://i.postimg.cc/DwX9wrVr/Design-sem-nome.png' }}
-            style={styles.logo}
-            resizeMode="contain"
-          />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {/* MINI HEADER FIXO */}
+        <View style={styles.miniHeader}>
+          <Text style={styles.headerTitle}>SantoPresente</Text>
+          <HamburgerButton onPress={() => setMenuVisible(true)} />
         </View>
-        
-        <Text style={styles.mainTitle}>SantoPresente</Text>
-        <Text style={styles.subtitle}>Moda Católica com Estilo e Fé</Text>
-        
-        <Text style={styles.description}>
-          Vista-se com propósito. Roupas confortáveis e designs únicos 
-          que celebram sua fé no dia a dia.
-        </Text>
 
-        <View style={styles.buttonContainer}>
-          <Button 
-            title="EXPLORAR COLEÇÃO" 
-            onPress={handleExplorePress}
-            variant="primary"
-          />
-          <View style={styles.buttonSpacing} />
-          <Button 
-            title="FALE CONOSCO" 
-            onPress={handleContactPress}
-            variant="secondary"
-          />
-        </View>
-      </View>
+        {/* Menu Lateral */}
+        <Navbar 
+          visible={menuVisible}
+          onClose={() => setMenuVisible(false)}
+          onNavigate={handleNavigation}
+        />
 
-      {/* SEÇÃO DE PRODUTOS */}
-      <View style={styles.productsSection}>
-        <Text style={styles.sectionTitle}>Nossos Produtos</Text>
-        
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.productsScroll}
-        >
-          <ProductCard 
-            icon="👕"
-            title="Camisas Oversized"
-            description="Conforto e estilo em peças amplas"
-          />
-          <ProductCard 
-            icon="👔"
-            title="Camisetas Estampadas"
-            description="Designs únicos com mensagens de fé"
-          />
-          <ProductCard 
-            icon="🧥"
-            title="Moletons"
-            description="Com e sem capuz para o frio"
-          />
-          <ProductCard 
-            icon="👗"
-            title="Babylooks"
-            description="Estilo feminino e delicado"
-          />
+        {/* CONTEÚDO SCROLLÁVEL */}
+        <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+          {/* SEÇÃO DO TOPO - Hero Section */}
+          <View style={styles.heroSection}>
+            <View style={styles.logoContainer}>
+              <Image 
+                source={{ uri: 'https://i.postimg.cc/DwX9wrVr/Design-sem-nome.png' }}
+                style={styles.logo}
+                resizeMode="contain"
+              />
+            </View>
+            
+            <Text style={styles.mainTitle}>SantoPresente</Text>
+            <Text style={styles.subtitle}>Moda Católica com Estilo e Fé</Text>
+            
+            <Text style={styles.description}>
+              Vista-se com propósito. Roupas confortáveis e designs únicos 
+              que celebram sua fé no dia a dia.
+            </Text>
+
+            <View style={styles.buttonContainer}>
+              <Button 
+                title="EXPLORAR COLEÇÃO" 
+                onPress={handleExplorePress}
+                variant="primary"
+              />
+              <View style={styles.buttonSpacing} />
+              <Button 
+                title="FALE CONOSCO" 
+                onPress={handleContactPress}
+                variant="secondary"
+              />
+            </View>
+          </View>
+
+          {/* SEÇÃO DE PRODUTOS */}
+          <View style={styles.productsSection}>
+            <Text style={styles.sectionTitle}>Nossos Produtos</Text>
+            
+            <ScrollView 
+              horizontal 
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.productsScroll}
+            >
+              <ProductCard 
+                icon="👕"
+                title="Camisas Oversized"
+                description="Conforto e estilo em peças amplas"
+              />
+              <ProductCard 
+                icon="👔"
+                title="Camisetas Estampadas"
+                description="Designs únicos com mensagens de fé"
+              />
+              <ProductCard 
+                icon="🧥"
+                title="Moletons"
+                description="Com e sem capuz para o frio"
+              />
+              <ProductCard 
+                icon="👗"
+                title="Babylooks"
+                description="Estilo feminino e delicado"
+              />
+            </ScrollView>
+          </View>
+
+          {/* SEÇÃO SOBRE */}
+          <View style={styles.aboutSection}>
+            <Text style={styles.sectionTitle}>Por que escolher SantoPresente?</Text>
+            
+            <View style={styles.featureContainer}>
+              <View style={styles.feature}>
+                <Text style={styles.featureIcon}>✨</Text>
+                <Text style={styles.featureTitle}>Qualidade Premium</Text>
+                <Text style={styles.featureText}>
+                  Tecidos selecionados e acabamento impecável
+                </Text>
+              </View>
+
+              <View style={styles.feature}>
+                <Text style={styles.featureIcon}>🙏</Text>
+                <Text style={styles.featureTitle}>Designs Inspiradores</Text>
+                <Text style={styles.featureText}>
+                  Cada peça conta uma história de fé
+                </Text>
+              </View>
+
+              <View style={styles.feature}>
+                <Text style={styles.featureIcon}>💝</Text>
+                <Text style={styles.featureTitle}>Presente Perfeito</Text>
+                <Text style={styles.featureText}>
+                  Ideal para presentear quem você ama
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/* RODAPÉ */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              © 2024 SantoPresente - Fé e Estilo
+            </Text>
+          </View>
         </ScrollView>
       </View>
-
-      {/* SEÇÃO SOBRE */}
-      <View style={styles.aboutSection}>
-        <Text style={styles.sectionTitle}>Por que escolher SantoPresente?</Text>
-        
-        <View style={styles.featureContainer}>
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>✨</Text>
-            <Text style={styles.featureTitle}>Qualidade Premium</Text>
-            <Text style={styles.featureText}>
-              Tecidos selecionados e acabamento impecável
-            </Text>
-          </View>
-
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>🙏</Text>
-            <Text style={styles.featureTitle}>Designs Inspiradores</Text>
-            <Text style={styles.featureText}>
-              Cada peça conta uma história de fé
-            </Text>
-          </View>
-
-          <View style={styles.feature}>
-            <Text style={styles.featureIcon}>💝</Text>
-            <Text style={styles.featureTitle}>Presente Perfeito</Text>
-            <Text style={styles.featureText}>
-              Ideal para presentear quem você ama
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      {/* RODAPÉ */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          © 2024 SantoPresente - Fé e Estilo
-        </Text>
-      </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.primary, // Cor do topo da tela (notch)
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+  },
+
+  // MINI HEADER FIXO
+  miniHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    shadowColor: Colors.secondary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 999, // Para ficar acima de tudo
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.secondary,
+    letterSpacing: 0.5,
+  },
+  
+  scrollContainer: {
+    flex: 1,
   },
   
   // ESTILOS DA SEÇÃO HERO (TOPO)
   heroSection: {
     alignItems: 'center',
-    paddingTop: 60,
+    paddingTop: 40,
     paddingHorizontal: 20,
     paddingBottom: 40,
   },
@@ -171,6 +226,7 @@ const styles = StyleSheet.create({
     color: Colors.textLight,
     marginBottom: 20,
     fontStyle: 'italic',
+    textAlign: 'center',
   },
   description: {
     fontSize: 16,
